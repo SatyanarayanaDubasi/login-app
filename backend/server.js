@@ -12,10 +12,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://satyadubasi91:0vNRms3ixn80R6KM@cluster0.hzgmy8m.mongodb.net/userdb?retryWrites=true&w=majority&appName=Cluster0', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).then(() => console.log("✅ MongoDB connected"))
+mongoose.connect('mongodb+srv://satyadubasi91:0vNRms3ixn80R6KM@cluster0.hzgmy8m.mongodb.net/userdb?retryWrites=true&w=majority&appName=Cluster0',).then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.log("❌ MongoDB connection error:", err));
 
 // MongoDB Schema
