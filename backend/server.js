@@ -12,7 +12,8 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://satyadubasi91:0vNRms3ixn80R6KM@cluster0.hzgmy8m.mongodb.net/userdb?retryWrites=true&w=majority&appName=Cluster0',).then(() => console.log("✅ MongoDB connected"))
+mongoose.connect('mongodb+srv://satyadubasi91:0vNRms3ixn80R6KM@cluster0.hzgmy8m.mongodb.net/userdb?retryWrites=true&w=majority&appName=Cluster0')
+  .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.log("❌ MongoDB connection error:", err));
 
 // MongoDB Schema
@@ -24,42 +25,24 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
-// Register Route
+// Register Route (Only this one is needed)
 app.post('/register', async (req, res) => {
   const { name, email, password, department } = req.body; 
 
-   // ✅ Password length check
-   if (!password || password.length < 5) {
+  if (!password || password.length < 5) {
     return res.status(400).json({ message: '❌ Password must be at least 5 characters long' });
   }
 
   const existingUser = await User.findOne({ email });
   if (existingUser) return res.json({ message: 'User already exists' });
 
-  const newUser = new User({ name, email, password, department});
+  const newUser = new User({ name, email, password, department });
   await newUser.save();
 
   res.json({ message: 'User registered successfully' });
 });
 
-app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  // Password policy
-  if (password.length < 5) {
-    return res.json({ message: 'Password must be at least 5 characters long' });
-  }
-
-  const existingUser = await User.findOne({ email });
-  if (existingUser) return res.json({ message: 'User already exists' });
-
-  const newUser = new User({ name, email, password });
-  await newUser.save();
-
-  res.json({ message: 'User registered successfully' });
-});
-
-// Optional default route
+// Default route
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
