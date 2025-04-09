@@ -26,7 +26,7 @@ const User = mongoose.model('User', UserSchema);
 
 // Register Route
 app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body; 
+  const { name, email, password, department } = req.body; 
 
    // ✅ Password length check
    if (!password || password.length < 5) {
@@ -36,7 +36,7 @@ app.post('/register', async (req, res) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) return res.json({ message: 'User already exists' });
 
-  const newUser = new User({ name, email, password });
+  const newUser = new User({ name, email, password, department});
   await newUser.save();
 
   res.json({ message: 'User registered successfully' });
