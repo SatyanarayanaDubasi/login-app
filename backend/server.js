@@ -49,5 +49,5 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(5000, () => {
-  console.log('🚀 Server running at http://localhost:5000');
+  console.log('🚀 Server running at http://0.0.0.0:5000');
 });
