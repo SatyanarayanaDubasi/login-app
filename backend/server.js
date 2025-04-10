@@ -25,21 +25,35 @@ const UserSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', UserSchema);
 
-// Register Route (Only this one is needed)
+// Register Route
 app.post('/register', async (req, res) => {
-  const { name, email, password, department } = req.body; 
+  const { name, email, password, department } = req.body;
 
   if (!password || password.length < 5) {
     return res.status(400).json({ message: '❌ Password must be at least 5 characters long' });
   }
 
   const existingUser = await User.findOne({ email });
-  if (existingUser) return res.json({ message: 'User already exists' });
+  if (existingUser) return res.json({ message: '❌ User already exists' });
 
   const newUser = new User({ name, email, password, department });
   await newUser.save();
 
-  res.json({ message: 'User registered successfully' });
+  res.json({ message: '✅ User registered successfully' });
+});
+
+// Login Route
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ email });
+  if (!user) return res.status(404).json({ message: '❌ User not found' });
+
+  if (user.password !== password) {
+    return res.status(401).json({ message: '❌ Incorrect password' });
+  }
+
+  res.json({ message: `✅ Welcome ${user.name} from ${user.department}` });
 });
 
 // Default route
@@ -47,7 +61,7 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Start server
+// Start server on 0.0.0.0 so it's accessible externally
 app.listen(5000, '0.0.0.0', () => {
   console.log('🚀 Server running at http://0.0.0.0:5000');
 });
