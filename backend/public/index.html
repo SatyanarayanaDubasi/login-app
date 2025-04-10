@@ -4,28 +4,28 @@
   <meta charset="UTF-8">
   <title>Login & Registration</title>
   <style>
-  body {
-  background-image: url('/image.jpg'); /* Your image file name */
-  background-size: cover;           /* Scales the image to cover entire screen */
-  background-position: center;      /* Keeps the image centered */
-  background-repeat: no-repeat;     /* Prevents tiling */
-  background-attachment: fixed;     /* Keeps the image fixed during scroll (optional) */
-  image-rendering: auto;            /* Ensures clarity */
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+    * {
+      box-sizing: border-box;
+    }
 
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: url('/image.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
 
     .container {
-      background-color: #ffffff;
+      background-color: rgba(255, 255, 255, 0.95);
       padding: 30px;
       border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      width: 300px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      width: 320px;
+      margin-right: 60px;
     }
 
     .toggle-buttons {
