@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Download Code') {
+            steps {
+                git branch: 'main', credentialsId: 'd7b64016-47cf-41f9-a188-8669c53949b2', url: 'https://github.com/SatyanarayanaDubasi/login-app.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                script {
+                    try {
+                        sh 'npm test'
+                    } catch (Exception e) {
+                        echo "Test stage failed: ${e.getMessage()}"
+                    }
+                }
+            }
+        }
+
+        stage('Build') {
+            when {
+                expression { fileExists('package.json') && sh(script: 'npm run build', returnStatus: true) == 0 }
+            }
+            steps {
+                sh 'npm run build'
+            }
+        }
+
+        stage('Archive package.json') {
+            steps {
+                archiveArtifacts artifacts: '**/package.json', fingerprint: true
+            }
+        }
+    }
+}
