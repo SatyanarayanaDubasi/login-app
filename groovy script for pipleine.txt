@@ -39,12 +39,12 @@ pipeline {
                 sh 'npm run build'
             }
         }
-    }
 
-    post {
-        always {
-            // Clean up the workspace after the pipeline execution
-            cleanWs()
+        stage('Archive package.json') {
+            steps {
+                // Archive the package.json file for future use
+                archiveArtifacts artifacts: '**/package.json', fingerprint: true
+            }
         }
     }
 }
